@@ -1,38 +1,97 @@
-.App {
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.header {
+  margin: 10px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background: linear-gradient(to left top, yellow, rgb(130, 133, 0)) fixed; 
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%; 
+}
+
+.special-box {
+  display: block;
+  margin-right: 1em;
+  margin-bottom: 5px;
+  border: 1px solid red;
+  text-align: center;
+
+  /* (full screen / num cards) -  ((margin * (numcards - 1 )) / numcards) */
+  width: calc(100%/4 - 3em/4 - 2px);
+}
+
+.special-box img {
+  width: 100%;
+}
+
+.special-box h1, .special-box h2, .special-box h3 {
+  width: 100%;
+}
+
+.special-box:nth-child(4n) {
+  margin-right: 0;
+}
+
+@media (max-width: 992px) {
+  .special-box {
+    /* (full screen / num cards) -  ((margin * (numcards - 1 )) / numcards) */
+    width: calc(100%/2 - 1em/2 - 2px);
+  }
+  
+  .special-box:nth-child(2n) {
+    margin-right: 0;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+h1 {
+  text-align: center;
+}
+
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.modal-content {
+  width: 500px;
+  background-color: #fff;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.modal-header, .modal-footer {
+  padding: 10px;
+}
+
+.modal-title {
+  margin: 0;
+}
+
+.modal-body {
+  padding: 10px;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
+.confirm-button {
+  margin-right: 10px;
 }
