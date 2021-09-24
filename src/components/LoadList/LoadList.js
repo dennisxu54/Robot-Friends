@@ -1,7 +1,5 @@
-import "./App.css";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { render } from "@testing-library/react";
+import "./LoadList.css";
+import React from "react";
 
 const LoadList = ({ items, error, onOpen }) => {
 

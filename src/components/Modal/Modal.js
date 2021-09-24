@@ -1,5 +1,5 @@
 import React from 'react'
-import "./App.css";
+import "./Modal.css";
 
 const NewModal = (props) =>{
     if (!props.show) {
