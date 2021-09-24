@@ -1,4 +1,4 @@
-import "./App.css";
+import "./Search.css";
 
 const Search = ({ searchQuery, setSearchQuery }) => (
   <form>

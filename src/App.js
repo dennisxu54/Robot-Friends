@@ -1,10 +1,9 @@
 import "./App.css";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import Search from "./search";
-import LoadList from "./loadList";
-import ConfirmBox from "./ConfirmBox";
-import NewModal from "./Modal";
+import Search from "./components/Search/Search";
+import LoadList from "./components/LoadList/LoadList";
+import NewModal from "./components/Modal/Modal";
 
 const filterPosts = (posts, query) => {
   if (!query) {
