@@ -10,7 +10,7 @@ const NewModal = (props) =>{
         <div className="modal">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h4 className="modal-title">Deleting this user</h4>
+                    <h4 className="modal-title">Deleting {props.user}</h4>
                 </div>
                 <div className="modal-body">
                     Are you sure you want to delete this user?

@@ -11,6 +11,7 @@
   }
   
 .modal-content {
+  height: 150px;
   width: 500px;
   background-color: #fff;
 }
@@ -29,7 +30,7 @@
 }
   
 .modal-body {
-  padding: 10px;
+  padding: 20px;
   border-top: 1px solid gray;
   border-bottom: 1px solid gray;
 }
@@ -53,4 +54,15 @@
   border-radius: 8px;
   border: 2px solid black;
   width: 50px;
+  transition-duration: 0.4s;
+}
+
+.confirm-button:hover {
+  background-color: #4CAF50; 
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: red;
+  color: white;
 }

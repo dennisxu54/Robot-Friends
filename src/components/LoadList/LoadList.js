@@ -14,7 +14,7 @@ const LoadList = ({ items, error, onOpen }) => {
         <h2>{item.username}</h2>
         <h3>{item.email}</h3>
         <button className="delete-button" onClick={() => {
-          onOpen(index) 
+          onOpen(index, item.name) 
         }} >Delete</button>
       </div>
     ));
