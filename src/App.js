@@ -24,8 +24,7 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const filteredPosts = filterPosts(items, searchQuery);
   const [show, setShow] = useState(false)
-  const [deleteUser, setDeleteUser] = useState(0)
-  const [robotName, setRobotName] = useState("")
+  const [deleteUser, setDeleteUser] = useState("")
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -45,14 +44,13 @@ const App = () => {
       );
   }, []);
 
-  function showConfirm(user, someName) {
-    setRobotName(someName)
+  function showConfirm(user) {
     setDeleteUser(user)
     setShow(true)
   }
 
   function deleteItem() {
-    setItems(items.filter((item, index) => index !== deleteUser));
+    setItems(items.filter((item) => item.name !== deleteUser));
     setShow(false)
   }
 
@@ -62,7 +60,7 @@ const App = () => {
     onDo={deleteItem}
     onClose={() => setShow(false)} 
     show={show}
-    user={robotName}
+    user={deleteUser}
     />
       <header className="header">
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
