@@ -13,11 +13,15 @@ const NewModal = (props) =>{
                     <h4 className="modal-title">Deleting this user</h4>
                 </div>
                 <div className="modal-body">
-                    Are you sure?
+                    Are you sure you want to delete this user?
                 </div>
                 <div className="modal-footer">
+                    <div className="left-button">
                     <button className="confirm-button" onClick={props.onDo}>Yes</button>
+                    </div>
+                    <div className="right-button">
                     <button className="cancel-button" onClick={props.onClose} >No</button>
+                    </div>
                 </div>
             </div>
         </div>
