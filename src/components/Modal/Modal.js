@@ -1,16 +1,12 @@
 import React from 'react'
 import "./Modal.css";
 
-const NewModal = ({ onDo, onClose, show, user }) =>{
-    if (!show) {
-      return null
-    }
-
+const NewModal = ({ onDo, onClose, user }) =>{
     return(
         <div className="modal">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h4 className="modal-title">Deleting {user.name}</h4>
+                    <h4 className="modal-title">Deleting {user}</h4>
                 </div>
                 <div className="modal-body">
                     Are you sure you want to delete this user?

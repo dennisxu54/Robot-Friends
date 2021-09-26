@@ -5,7 +5,7 @@ import Search from "./components/Search/Search";
 import LoadList from "./components/LoadList/LoadList";
 import NewModal from "./components/Modal/Modal";
 
-const filterPosts = (posts, query) => {
+const filterRobots = (posts, query) => {
   if (!query) {
     return posts;
   }
@@ -19,59 +19,64 @@ const filterPosts = (posts, query) => {
 
 const App = () => {
   const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [isListLoaded, setIsListLoaded] = useState(false);
+  const [robotList, setRobotList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const filteredPosts = filterPosts(items, searchQuery);
-  const [show, setShow] = useState(false);
-  const [deleteUser, setDeleteUser] = useState(0);
+  const filteredRobotList = filterRobots(robotList, searchQuery);
+  const [showModal, setShowModal] = useState(false);
+  const [deleteUserIndex, setDeleteUserIndex] = useState(0);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((res) => res.json())
       .then(
         (result) => {
-          setIsLoaded(true);
-          setItems(result);
+          setIsListLoaded(true);
+          setRobotList(result);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
         // exceptions from actual bugs in components.
         (error) => {
-          setIsLoaded(true);
+          setIsListLoaded(true);
           setError(error);
         }
       );
   }, []);
 
-  function showConfirm(user) {
-    setDeleteUser(user);
-    setShow(true);
+  function showConfirm(index) {
+    setDeleteUserIndex(index);
+    setShowModal(true);
   }
 
   function deleteItem() {
-    setItems(items.filter((item) => item !== deleteUser));
-    setShow(false);
+    setRobotList(robotList.filter((item, index) => index !== deleteUserIndex));
+    setShowModal(false);
   }
 
   return (
     <div>
-      <NewModal
-        onDo={deleteItem}
-        onClose={() => setShow(false)}
-        show={show}
-        user={deleteUser}
-      />
+      {
+        /* Only render modal if items are loaded */
+        // main takeaway for this PR is, name your variables more specifically, helps with debugging
+        robotList.length > 0 && showModal && (
+          <NewModal
+            onDo={deleteItem}
+            onClose={() => setShowModal(false)}
+            user={robotList[deleteUserIndex].name}
+          />
+        )
+      }
       <header className="header">
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </header>
       <main>
         <h1>RoboFriends</h1>
-        {isLoaded ? (
+        {isListLoaded ? (
           <div className="container">
             <LoadList
               error={error}
-              items={filteredPosts}
+              items={filteredRobotList}
               onOpen={showConfirm}
             />
           </div>
