@@ -23,8 +23,8 @@ const App = () => {
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const filteredPosts = filterPosts(items, searchQuery);
-  const [show, setShow] = useState(false)
-  const [deleteUser, setDeleteUser] = useState("")
+  const [show, setShow] = useState(false);
+  const [deleteUser, setDeleteUser] = useState(0);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -45,23 +45,23 @@ const App = () => {
   }, []);
 
   function showConfirm(user) {
-    setDeleteUser(user)
-    setShow(true)
+    setDeleteUser(user);
+    setShow(true);
   }
 
   function deleteItem() {
-    setItems(items.filter((item) => item.name !== deleteUser));
-    setShow(false)
+    setItems(items.filter((item) => item !== deleteUser));
+    setShow(false);
   }
 
   return (
     <div>
-    <NewModal 
-    onDo={deleteItem}
-    onClose={() => setShow(false)} 
-    show={show}
-    user={deleteUser}
-    />
+      <NewModal
+        onDo={deleteItem}
+        onClose={() => setShow(false)}
+        show={show}
+        user={deleteUser}
+      />
       <header className="header">
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </header>
