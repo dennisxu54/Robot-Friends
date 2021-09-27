@@ -3,7 +3,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Search from "./components/Search/Search";
 import LoadList from "./components/LoadList/LoadList";
-import NewModal from "./components/Modal/Modal";
+import DeleteModal from "./components/DeleteModal/DeleteModal";
+import RobotModal from "./components/RobotModal/RobotModal";
 
 const filterRobots = (posts, query) => {
   if (!query) {
@@ -23,8 +24,10 @@ const App = () => {
   const [robotList, setRobotList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const filteredRobotList = filterRobots(robotList, searchQuery);
-  const [showModal, setShowModal] = useState(false);
-  const [deleteUserIndex, setDeleteUserIndex] = useState(0);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showRobotModal, setShowRobotModal] = useState(false);
+  const [deleteRobotIndex, setDeleteRobotIndex] = useState(0);
+  const [extraRobotInformationIndex, setExtraRobotInformationIndex] = useState();
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -44,14 +47,19 @@ const App = () => {
       );
   }, []);
 
-  function showConfirm(index) {
-    setDeleteUserIndex(index);
-    setShowModal(true);
+  function showDeleteConfirm(robotIndex) {
+    setDeleteRobotIndex(robotIndex);
+    setShowDeleteModal(true);
   }
 
   function deleteItem() {
-    setRobotList(robotList.filter((item, index) => index !== deleteUserIndex));
-    setShowModal(false);
+    setRobotList(robotList.filter((item, index) => index !== deleteRobotIndex));
+    setShowDeleteModal(false);
+  }
+
+  function showExtraInformation(robotInformationIndex) {
+    setExtraRobotInformationIndex(robotInformationIndex)
+    setShowRobotModal(true)
   }
 
   return (
@@ -59,14 +67,24 @@ const App = () => {
       {
         /* Only render modal if items are loaded */
         // main takeaway for this PR is, name your variables more specifically, helps with debugging
-        robotList.length > 0 && showModal && (
-          <NewModal
+        robotList.length > 0 && showDeleteModal && (
+          <DeleteModal
             onDo={deleteItem}
-            onClose={() => setShowModal(false)}
-            user={robotList[deleteUserIndex].name}
+            onClose={() => setShowDeleteModal(false)}
+            RobotNameToBeDeleted={robotList[deleteRobotIndex].name}
           />
         )
       }
+      {robotList.length > 0 && showRobotModal && (
+        <RobotModal 
+        onClose={() => setShowRobotModal(false)}
+        currentRobotName={robotList[extraRobotInformationIndex].name}
+        currentRobotAddress={robotList[extraRobotInformationIndex].address}
+        currentRobotPhone={robotList[extraRobotInformationIndex].phone} 
+        currentRobotWebsite={robotList[extraRobotInformationIndex].website} 
+        currentRobotCompanyName={robotList[extraRobotInformationIndex].company.name} 
+         />
+      )}
       <header className="header">
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </header>
@@ -76,8 +94,9 @@ const App = () => {
           <div className="container">
             <LoadList
               error={error}
-              items={filteredRobotList}
-              onOpen={showConfirm}
+              Robots={filteredRobotList}
+              onDelete={showDeleteConfirm}
+              onShowInformation={showExtraInformation}
             />
           </div>
         ) : (

@@ -47,6 +47,7 @@ h1 {
   border-radius: 8px;
   border: 2px solid black;
   width: 100px;
+  height: 50px;
   margin-bottom: 10px;
   transition-duration: 0.4s;
 }
@@ -54,4 +55,33 @@ h1 {
 .delete-button:hover {
   background-color: red;
   color: white;
+}
+
+.information-button {
+  background-color: white;
+  border: none;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid black;
+  width: 100px;
+  height: 50px;
+  margin-bottom: 10px;
+  transition-duration: 0.4s;
+}
+
+.information-button:hover {
+  background-color: royalblue;
+  color: white;
+}
+
+.left-button {
+  float: left;
+  margin-left: 10px;
+}
+
+.right-button {
+  float: right;
+  margin-right: 10px;
 }
