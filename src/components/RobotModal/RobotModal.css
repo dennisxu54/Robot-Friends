@@ -34,19 +34,19 @@
 }
 
 .return-button {
-    background-color: white;
-    border: none;
-    color: black;
-    text-align: center;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 2px solid black;
-    width: 100px;
-    transition-duration: 0.4s;
-    margin-top: 5px;
-  }
-  
-  .return-button:hover {
-    background-color: royalblue;
-    color: white;
-  }
+  background-color: white;
+  border: none;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid black;
+  width: 100px;
+  transition-duration: 0.4s;
+  margin-top: 5px;
+}
+
+.return-button:hover {
+  background-color: royalblue;
+  color: white;
+}

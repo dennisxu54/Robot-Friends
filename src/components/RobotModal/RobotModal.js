@@ -1,10 +1,7 @@
 import React from "react";
 import "./RobotModal.css";
 
-const RobotModal = ({
-  onClose,
-  currentRobot
-}) => {
+const RobotModal = ({ onClose, currentRobot }) => {
   return (
     <div className="modal">
       <div className="modal-content">
@@ -17,13 +14,13 @@ const RobotModal = ({
             {currentRobot.address.city} {currentRobot.address.zipcode}
           </p>
           <p>Phone: {currentRobot.phone}</p>
-          <p>Website: {currentRobot.website}</p>
-          <p>Company Name: {currentRobot.company.name}</p>
+          <p>Website: <a href={`https://${currentRobot.website}`} target="_blank" rel="noreferrer noopener">{currentRobot.website}</a></p>
+          <p>Company Name: {currentRobot.company.name}</p> 
         </div>
         <div className="modal-footer">
-            <button className="return-button" onClick={onClose}>
-              return
-            </button>
+          <button className="return-button" onClick={onClose}>
+            return
+          </button>
         </div>
       </div>
     </div>

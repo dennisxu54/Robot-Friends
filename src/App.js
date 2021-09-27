@@ -27,7 +27,8 @@ const App = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showRobotModal, setShowRobotModal] = useState(false);
   const [deleteRobotIndex, setDeleteRobotIndex] = useState(0);
-  const [extraRobotInformationIndex, setExtraRobotInformationIndex] = useState();
+  const [extraRobotInformationIndex, setExtraRobotInformationIndex] =
+    useState();
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -58,30 +59,34 @@ const App = () => {
   }
 
   function showExtraInformation(robotInformationIndex) {
-    setExtraRobotInformationIndex(robotInformationIndex)
-    setShowRobotModal(true)
+    setExtraRobotInformationIndex(robotInformationIndex);
+    setShowRobotModal(true);
   }
 
   return (
     <div>
-      { 
+      {
         /* Only render modal if items are loaded */
         // main takeaway for this PR is, name your variables more specifically, helps with debugging
-        robotList.length > 0 ?
-        [showDeleteModal && (
-          <DeleteModal
-            onDo={deleteItem}
-            onClose={() => setShowDeleteModal(false)}
-            RobotNameToBeDeleted={robotList[deleteRobotIndex].name}
-          />
-        ),
-        showRobotModal && (
-        <RobotModal 
-        onClose={() => setShowRobotModal(false)}
-        currentRobot={robotList[extraRobotInformationIndex]}
-         />
-      )]
-      :<p>Loading ...</p>
+        robotList.length > 0 ? (
+          [
+            showDeleteModal && (
+              <DeleteModal
+                onDo={deleteItem}
+                onClose={() => setShowDeleteModal(false)}
+                RobotNameToBeDeleted={robotList[deleteRobotIndex].name}
+              />
+            ),
+            showRobotModal && (
+              <RobotModal
+                onClose={() => setShowRobotModal(false)}
+                currentRobot={robotList[extraRobotInformationIndex]}
+              />
+            ),
+          ]
+        ) : (
+          <p>Loading ...</p>
+        )
       }
       <header className="header">
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

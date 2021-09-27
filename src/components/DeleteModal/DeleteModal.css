@@ -8,15 +8,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  }
-  
+}
+
 .modal-content {
   height: 150px;
   width: 500px;
   background-color: #fff;
 }
-  
-.modal-header, .modal-footer {
+
+.modal-header,
+.modal-footer {
   position: relative;
   padding: 10px;
 }
@@ -24,11 +25,11 @@
 .modal-header {
   text-align: center;
 }
-  
+
 .modal-title {
   margin: 0;
 }
-  
+
 .modal-body {
   padding: 20px;
   border-top: 1px solid gray;
@@ -45,7 +46,8 @@
   margin-bottom: 10px;
 }
 
-.confirm-button, .cancel-button {
+.confirm-button,
+.cancel-button {
   background-color: white;
   border: none;
   color: black;
@@ -58,7 +60,7 @@
 }
 
 .confirm-button:hover {
-  background-color: #4CAF50; 
+  background-color: #4caf50;
   color: white;
 }
 
