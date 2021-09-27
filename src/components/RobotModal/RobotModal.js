@@ -3,26 +3,22 @@ import "./RobotModal.css";
 
 const RobotModal = ({
   onClose,
-  currentRobotName,
-  currentRobotAddress,
-  currentRobotPhone,
-  currentRobotWebsite,
-  currentRobotCompanyName,
+  currentRobot
 }) => {
   return (
     <div className="modal">
       <div className="modal-content">
         <div className="modal-header">
-          <h4 className="modal-title">{currentRobotName}</h4>
+          <h4 className="modal-title">{currentRobot.name}</h4>
         </div>
         <div className="modal-body">
           <p>
-            Address: {currentRobotAddress.street} {currentRobotAddress.suite}{" "}
-            {currentRobotAddress.city} {currentRobotAddress.zipcode}
+            Address: {currentRobot.address.street} {currentRobot.address.suite}{" "}
+            {currentRobot.address.city} {currentRobot.address.zipcode}
           </p>
-          <p>Phone: {currentRobotPhone}</p>
-          <p>Website: {currentRobotWebsite}</p>
-          <p>Company Name: {currentRobotCompanyName}</p>
+          <p>Phone: {currentRobot.phone}</p>
+          <p>Website: {currentRobot.website}</p>
+          <p>Company Name: {currentRobot.company.name}</p>
         </div>
         <div className="modal-footer">
             <button className="return-button" onClick={onClose}>

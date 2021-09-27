@@ -64,27 +64,25 @@ const App = () => {
 
   return (
     <div>
-      {
+      { 
         /* Only render modal if items are loaded */
         // main takeaway for this PR is, name your variables more specifically, helps with debugging
-        robotList.length > 0 && showDeleteModal && (
+        robotList.length > 0 ?
+        [showDeleteModal && (
           <DeleteModal
             onDo={deleteItem}
             onClose={() => setShowDeleteModal(false)}
             RobotNameToBeDeleted={robotList[deleteRobotIndex].name}
           />
-        )
-      }
-      {robotList.length > 0 && showRobotModal && (
+        ),
+        showRobotModal && (
         <RobotModal 
         onClose={() => setShowRobotModal(false)}
-        currentRobotName={robotList[extraRobotInformationIndex].name}
-        currentRobotAddress={robotList[extraRobotInformationIndex].address}
-        currentRobotPhone={robotList[extraRobotInformationIndex].phone} 
-        currentRobotWebsite={robotList[extraRobotInformationIndex].website} 
-        currentRobotCompanyName={robotList[extraRobotInformationIndex].company.name} 
+        currentRobot={robotList[extraRobotInformationIndex]}
          />
-      )}
+      )]
+      :<p>Loading ...</p>
+      }
       <header className="header">
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </header>
