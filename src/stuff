@@ -38,6 +38,35 @@
 
 
 
+  const orderArrayBy = (type) => {
+    setOptions(type.option);
+    const sortOrder = type.order;
+    if (sortOrder === "up") {
+      const sortedArray = [...filteredRobotList].sort(
+        (a, b) => a[options] - b[options]
+      );
+      setFilteredRobotList(sortedArray);
+    } else {
+      const sortedArray = [...filteredRobotList].sort(
+        (a, b) => b[options] - a[options]
+      );
+      setFilteredRobotList(sortedArray);
+    }
+  };
+
+  function selectOrderBy(type, sort) {
+    setSortOptionType(type);
+    setSortOptionOrder(sort);
+  }
+  const [sortOptionType, setSortOptionType] = useState("id")
+  const [sortOptionOrder, setSortOptionOrder] = useState("up")
+  onChange={(e) => selectOrderBy(e.target.value.option, e.target.value.order)}
+
+
+
+
+
+
 
 
 

@@ -29,6 +29,7 @@ const App = () => {
   const [deleteRobotIndex, setDeleteRobotIndex] = useState(0);
   const [extraRobotInformationIndex, setExtraRobotInformationIndex] =
     useState();
+  const [sortOptionType, setSortOptionType] = useState("id-up");
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -47,6 +48,34 @@ const App = () => {
         }
       );
   }, []);
+
+  useEffect(() => {
+    const orderArrayBy = (orderType) => {
+      const typeOrder = orderType.split("-");
+      if ((typeOrder[1] === "up") & (typeOrder[0] === "id")) {
+        const sortedArray = [...filteredRobotList].sort(
+          (a, b) => a[typeOrder[0]] - b[typeOrder[0]]
+        );
+        setRobotList(sortedArray);
+      } else if ((typeOrder[1] === "down") & (typeOrder[0] === "id")) {
+        const sortedArray = [...filteredRobotList].sort(
+          (a, b) => b[typeOrder[0]] - a[typeOrder[0]]
+        );
+        setRobotList(sortedArray);
+      } else if ((typeOrder[1] === "up") & (typeOrder[0] === "name")) {
+        const sortedArray = [...filteredRobotList].sort((a, b) =>
+          a[typeOrder[0]].toLowerCase() < b[typeOrder[0]].toLowerCase() ? -1 : 1
+        );
+        setRobotList(sortedArray);
+      } else if ((typeOrder[1] === "down") & (typeOrder[0] === "name")) {
+        const sortedArray = [...filteredRobotList].sort((a, b) =>
+          b[typeOrder[0]].toLowerCase() > a[typeOrder[0]].toLowerCase() ? 1 : -1
+        );
+        setRobotList(sortedArray);
+      }
+    };
+    orderArrayBy(sortOptionType);
+  }, [sortOptionType]);
 
   function showDeleteConfirm(robotIndex) {
     setDeleteRobotIndex(robotIndex);
@@ -88,9 +117,20 @@ const App = () => {
           <p>Loading ...</p>
         )
       }
-      <header className="header">
-        <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      </header>
+      <div>
+        <header className="header">
+          <select
+            className="drop-down-box"
+            onChange={(e) => setSortOptionType(e.target.value)}
+          >
+            <option value="id-up">ID Ascend</option>
+            <option value="id-down">ID Descend</option>
+            <option value="name-up">Name Ascend</option>
+            <option value="name-down">Name Descend</option>
+          </select>
+          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        </header>
+      </div>
       <main>
         <h1>RoboFriends</h1>
         {isListLoaded ? (
