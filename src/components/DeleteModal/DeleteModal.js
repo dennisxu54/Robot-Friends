@@ -1,12 +1,12 @@
 import React from 'react'
-import "./Modal.css";
+import "./DeleteModal.css";
 
-const NewModal = ({ onDo, onClose, user }) =>{
+const DeleteModal = ({ onDo, onClose, RobotNameToBeDeleted }) =>{
     return(
         <div className="modal">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h4 className="modal-title">Deleting {user}</h4>
+                    <h4 className="modal-title">Deleting {RobotNameToBeDeleted}</h4>
                 </div>
                 <div className="modal-body">
                     Are you sure you want to delete this user?
@@ -24,4 +24,4 @@ const NewModal = ({ onDo, onClose, user }) =>{
     )
 }
 
-export default NewModal;
+export default DeleteModal;
