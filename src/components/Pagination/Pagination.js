@@ -10,7 +10,7 @@ const Pagination = ({
   showDelete,
   showInformation,
 }) => {
-  const [pages] = useState(Math.round(data.length / dataLimit));
+  const pages = Math.round(data.length / dataLimit);
   const [currentPage, setCurrentPage] = useState(1);
 
   function goToNextPage() {
@@ -46,6 +46,8 @@ const Pagination = ({
           onShowInformation={showInformation}
         />
       </>
+
+      <div className="ender"></div>
 
       {/* show the pagiantion
             it consists of next and previous buttons
