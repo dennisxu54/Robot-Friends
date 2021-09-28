@@ -5,6 +5,7 @@ import Search from "./components/Search/Search";
 import LoadList from "./components/LoadList/LoadList";
 import DeleteModal from "./components/DeleteModal/DeleteModal";
 import RobotModal from "./components/RobotModal/RobotModal";
+import Pagination from "./components/Pagination/Pagination";
 
 const filterRobots = (posts, query) => {
   if (!query) {
@@ -58,7 +59,7 @@ const App = () => {
       const sortedArray = [...filteredRobotList].sort((a, b) =>
         a[filterType] > b[filterType] ? isAscending : -isAscending
       );
-      
+
       setRobotList(sortedArray);
     };
     orderArrayBy(sortOptionType);
@@ -119,15 +120,20 @@ const App = () => {
         </header>
       </div>
       <main>
-        <h1>RoboFriends</h1>
+        <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
         {isListLoaded ? (
           <div className="container">
-            <LoadList
-              error={error}
-              Robots={filteredRobotList}
-              onDelete={showDeleteConfirm}
-              onShowInformation={showExtraInformation}
-            />
+            {error ? (
+              <div>Error: {error.message}</div>
+            ) : (
+              <Pagination
+            data={filteredRobotList}
+            pageLimit={1}
+            dataLimit={4}
+            showDelete={showDeleteConfirm}
+            showInformation={showExtraInformation}
+          />
+            )}
           </div>
         ) : (
           <p>Loading...</p>
