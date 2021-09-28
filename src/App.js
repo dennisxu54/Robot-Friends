@@ -5,6 +5,7 @@ import Search from "./components/Search/Search";
 import LoadList from "./components/LoadList/LoadList";
 import DeleteModal from "./components/DeleteModal/DeleteModal";
 import RobotModal from "./components/RobotModal/RobotModal";
+import Pagination from "./components/Pagination/Pagination";
 
 const filterRobots = (posts, query) => {
   if (!query) {
@@ -19,6 +20,8 @@ const filterRobots = (posts, query) => {
 };
 
 const App = () => {
+  const maxEntriesPerPage = 4;
+  const pagesToShow = 1;
   const [error, setError] = useState(null);
   const [isListLoaded, setIsListLoaded] = useState(false);
   const [robotList, setRobotList] = useState([]);
@@ -30,6 +33,8 @@ const App = () => {
   const [extraRobotInformationIndex, setExtraRobotInformationIndex] =
     useState();
   const [sortOptionType, setSortOptionType] = useState("id-up");
+  const [currentPage, setCurrentPage] = useState(1);
+  const maxPages = Math.round(filteredRobotList.length / maxEntriesPerPage);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -58,7 +63,7 @@ const App = () => {
       const sortedArray = [...filteredRobotList].sort((a, b) =>
         a[filterType] > b[filterType] ? isAscending : -isAscending
       );
-      
+
       setRobotList(sortedArray);
     };
     orderArrayBy(sortOptionType);
@@ -78,6 +83,12 @@ const App = () => {
     setExtraRobotInformationIndex(robotInformationIndex);
     setShowRobotModal(true);
   }
+
+  const getPaginatedData = () => {
+    const startIndex = currentPage * maxEntriesPerPage - maxEntriesPerPage;
+    const endIndex = startIndex + maxEntriesPerPage;
+    return filteredRobotList.slice(startIndex, endIndex);
+  };
 
   return (
     <div>
@@ -119,15 +130,27 @@ const App = () => {
         </header>
       </div>
       <main>
-        <h1>RoboFriends</h1>
+        <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
         {isListLoaded ? (
           <div className="container">
-            <LoadList
-              error={error}
-              Robots={filteredRobotList}
-              onDelete={showDeleteConfirm}
-              onShowInformation={showExtraInformation}
-            />
+            {error ? (
+              <div>Error: {error.message}</div>
+            ) : (
+              <>
+                <LoadList
+                  Robots={getPaginatedData()}
+                  onDelete={showDeleteConfirm}
+                  onShowInformation={showExtraInformation}
+                />
+
+                <Pagination
+                  maxPage={maxPages}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  pageLimit={pagesToShow}
+                />
+              </>
+            )}
           </div>
         ) : (
           <p>Loading...</p>
