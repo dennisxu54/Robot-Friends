@@ -52,27 +52,21 @@ const App = () => {
   useEffect(() => {
     const orderArrayBy = (orderType) => {
       const typeOrder = orderType.split("-");
-      if ((typeOrder[1] === "up") & (typeOrder[0] === "id")) {
-        const sortedArray = [...filteredRobotList].sort(
+      const direction = typeOrder[1];
+
+      let sortedArray = [];
+      //can you push this
+
+      if (direction === "up") {
+        sortedArray = [...filteredRobotList].sort(
           (a, b) => a[typeOrder[0]] - b[typeOrder[0]]
         );
-        setRobotList(sortedArray);
-      } else if ((typeOrder[1] === "down") & (typeOrder[0] === "id")) {
-        const sortedArray = [...filteredRobotList].sort(
+      } else if (direction === "down") {
+        sortedArray = [...filteredRobotList].sort(
           (a, b) => b[typeOrder[0]] - a[typeOrder[0]]
         );
-        setRobotList(sortedArray);
-      } else if ((typeOrder[1] === "up") & (typeOrder[0] === "name")) {
-        const sortedArray = [...filteredRobotList].sort((a, b) =>
-          a[typeOrder[0]].toLowerCase() < b[typeOrder[0]].toLowerCase() ? -1 : 1
-        );
-        setRobotList(sortedArray);
-      } else if ((typeOrder[1] === "down") & (typeOrder[0] === "name")) {
-        const sortedArray = [...filteredRobotList].sort((a, b) =>
-          b[typeOrder[0]].toLowerCase() > a[typeOrder[0]].toLowerCase() ? 1 : -1
-        );
-        setRobotList(sortedArray);
       }
+      setRobotList(sortedArray);
     };
     orderArrayBy(sortOptionType);
   }, [sortOptionType]);
