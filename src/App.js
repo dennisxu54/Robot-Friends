@@ -20,6 +20,8 @@ const filterRobots = (posts, query) => {
 };
 
 const App = () => {
+  const maxEntriesPerPage = 4;
+  const pagesToShow = 1;
   const [error, setError] = useState(null);
   const [isListLoaded, setIsListLoaded] = useState(false);
   const [robotList, setRobotList] = useState([]);
@@ -31,6 +33,8 @@ const App = () => {
   const [extraRobotInformationIndex, setExtraRobotInformationIndex] =
     useState();
   const [sortOptionType, setSortOptionType] = useState("id-up");
+  const [currentPage, setCurrentPage] = useState(1);
+  const maxPages = Math.round(filteredRobotList.length / maxEntriesPerPage);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -80,6 +84,12 @@ const App = () => {
     setShowRobotModal(true);
   }
 
+  const getPaginatedData = () => {
+    const startIndex = currentPage * maxEntriesPerPage - maxEntriesPerPage;
+    const endIndex = startIndex + maxEntriesPerPage;
+    return filteredRobotList.slice(startIndex, endIndex);
+  };
+
   return (
     <div>
       {
@@ -126,13 +136,20 @@ const App = () => {
             {error ? (
               <div>Error: {error.message}</div>
             ) : (
-              <Pagination
-            data={filteredRobotList}
-            pageLimit={1}
-            dataLimit={4}
-            showDelete={showDeleteConfirm}
-            showInformation={showExtraInformation}
-          />
+              <>
+                <LoadList
+                  Robots={getPaginatedData()}
+                  onDelete={showDeleteConfirm}
+                  onShowInformation={showExtraInformation}
+                />
+
+                <Pagination
+                  maxPage={maxPages}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  pageLimit={pagesToShow}
+                />
+              </>
             )}
           </div>
         ) : (

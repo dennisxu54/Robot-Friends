@@ -4,14 +4,11 @@ import { useState } from "react";
 import LoadList from "../LoadList/LoadList";
 
 const Pagination = ({
-  data,
+  maxPage,
+  currentPage,
+  setCurrentPage,
   pageLimit,
-  dataLimit,
-  showDelete,
-  showInformation,
 }) => {
-  const pages = Math.round(data.length / dataLimit);
-  const [currentPage, setCurrentPage] = useState(1);
 
   function goToNextPage() {
     setCurrentPage((page) => page + 1);
@@ -26,12 +23,6 @@ const Pagination = ({
     setCurrentPage(pageNumber);
   }
 
-  const getPaginatedData = () => {
-    const startIndex = currentPage * dataLimit - dataLimit;
-    const endIndex = startIndex + dataLimit;
-    return data.slice(startIndex, endIndex);
-  };
-
   const getPaginationGroup = () => {
     let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
     return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
@@ -39,13 +30,6 @@ const Pagination = ({
 
   return (
     <>
-      <>
-        <LoadList
-          Robots={getPaginatedData()}
-          onDelete={showDelete}
-          onShowInformation={showInformation}
-        />
-      </>
 
       <div className="ender"></div>
 
@@ -79,7 +63,7 @@ const Pagination = ({
         {/* next button */}
         <button
           onClick={goToNextPage}
-          className={`next ${currentPage === pages ? "disabled" : ""}`}
+          className={`next ${currentPage === maxPage ? "disabled" : ""}`}
         >
           next
         </button>
