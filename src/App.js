@@ -52,20 +52,13 @@ const App = () => {
   useEffect(() => {
     const orderArrayBy = (orderType) => {
       const typeOrder = orderType.split("-");
-      const direction = typeOrder[1];
+      const filterType = typeOrder[0];
+      const isAscending = typeOrder[1] === "up" ? 1 : -1;
 
-      let sortedArray = [];
-      //can you push this
-
-      if (direction === "up") {
-        sortedArray = [...filteredRobotList].sort(
-          (a, b) => a[typeOrder[0]] - b[typeOrder[0]]
-        );
-      } else if (direction === "down") {
-        sortedArray = [...filteredRobotList].sort(
-          (a, b) => b[typeOrder[0]] - a[typeOrder[0]]
-        );
-      }
+      const sortedArray = [...filteredRobotList].sort((a, b) =>
+        a[filterType] > b[filterType] ? isAscending : -isAscending
+      );
+      
       setRobotList(sortedArray);
     };
     orderArrayBy(sortOptionType);
