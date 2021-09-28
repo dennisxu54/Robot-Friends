@@ -1,7 +1,7 @@
 import "./Search.css";
 
 const Search = ({ searchQuery, setSearchQuery }) => (
-  <form>
+  <form className="search-box">
     <label htmlFor="header-search">
       <span className="visually-hidden">Search robots</span>
     </label>

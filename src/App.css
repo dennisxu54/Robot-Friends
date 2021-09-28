@@ -1,6 +1,7 @@
 .header {
   margin: 10px;
-  text-align: center;
+  display: flex;
+  flex-direction: row;
 }
 
 body {
@@ -13,3 +14,6 @@ body {
   width: 100%; 
 }
 
+.drop-down-box {
+  text-align: left;
+}
