@@ -20,7 +20,7 @@ const filterRobots = (posts, query) => {
 };
 
 const App = () => {
-  const maxEntriesPerPage = 4;
+  const [maxEntriesPerPage, setMaxEntriesPerPage] = useState(4);
   const pagesToShow = 1;
   const [error, setError] = useState(null);
   const [isListLoaded, setIsListLoaded] = useState(false);
@@ -34,7 +34,7 @@ const App = () => {
     useState();
   const [sortOptionType, setSortOptionType] = useState("id-up");
   const [currentPage, setCurrentPage] = useState(1);
-  const maxPages = Math.round(filteredRobotList.length / maxEntriesPerPage);
+  const maxPages = Math.ceil(filteredRobotList.length / maxEntriesPerPage);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -54,6 +54,23 @@ const App = () => {
       );
   }, []);
 
+  useEffect(() =>{
+    function resizeWindow() {
+      if (window.innerWidth <= 992) {
+        setMaxEntriesPerPage(1);
+        setCurrentPage(1);
+      } else if (window.innerWidth > 992) {
+        setMaxEntriesPerPage(4);
+        setCurrentPage(1);
+      }
+    }
+    window.addEventListener('resize', resizeWindow)
+
+    return _ => {
+      window.removeEventListener('resize', resizeWindow)
+    }
+  })
+
   useEffect(() => {
     const orderArrayBy = (orderType) => {
       const typeOrder = orderType.split("-");
@@ -69,19 +86,20 @@ const App = () => {
     orderArrayBy(sortOptionType);
   }, [sortOptionType]);
 
-  function showDeleteConfirm(robotIndex) {
-    setDeleteRobotIndex(robotIndex);
-    setShowDeleteModal(true);
+  function buttonOptions(robotIndex, option) {
+    const correctedIndex = robotIndex + (currentPage - 1) * maxEntriesPerPage;
+    setDeleteRobotIndex(correctedIndex);
+    setExtraRobotInformationIndex(correctedIndex);
+    if (option === "delete") {
+      setShowDeleteModal(true);
+    } else if (option === "information") {
+      setShowRobotModal(true);
+    }
   }
 
   function deleteItem() {
     setRobotList(robotList.filter((item, index) => index !== deleteRobotIndex));
     setShowDeleteModal(false);
-  }
-
-  function showExtraInformation(robotInformationIndex) {
-    setExtraRobotInformationIndex(robotInformationIndex);
-    setShowRobotModal(true);
   }
 
   const getPaginatedData = () => {
@@ -116,9 +134,15 @@ const App = () => {
         )
       }
       <div>
-        <header className="header">
+        <header className="main-header">
+          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        </header>
+      </div>
+      <main>
+        <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
+        <div className="main-center">
           <select
-            className="drop-down-box"
+            className="main-drop-down-box"
             onChange={(e) => setSortOptionType(e.target.value)}
           >
             <option value="id-up">ID Ascend</option>
@@ -126,23 +150,17 @@ const App = () => {
             <option value="name-up">Name Ascend</option>
             <option value="name-down">Name Descend</option>
           </select>
-          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        </header>
-      </div>
-      <main>
-        <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
+        </div>
         {isListLoaded ? (
-          <div className="container">
+          <div className="main-container">
             {error ? (
               <div>Error: {error.message}</div>
             ) : (
               <>
                 <LoadList
                   Robots={getPaginatedData()}
-                  onDelete={showDeleteConfirm}
-                  onShowInformation={showExtraInformation}
+                  onButton={buttonOptions}
                 />
-
                 <Pagination
                   maxPage={maxPages}
                   currentPage={currentPage}

@@ -3,13 +3,7 @@ import React from "react";
 import { useState } from "react";
 import LoadList from "../LoadList/LoadList";
 
-const Pagination = ({
-  maxPage,
-  currentPage,
-  setCurrentPage,
-  pageLimit,
-}) => {
-
+const Pagination = ({ maxPage, currentPage, setCurrentPage, pageLimit }) => {
   function goToNextPage() {
     setCurrentPage((page) => page + 1);
   }
@@ -30,7 +24,6 @@ const Pagination = ({
 
   return (
     <>
-
       <div className="ender"></div>
 
       {/* show the pagiantion

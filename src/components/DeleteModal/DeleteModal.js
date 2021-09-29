@@ -3,22 +3,22 @@ import "./DeleteModal.css";
 
 const DeleteModal = ({ onDo, onClose, RobotNameToBeDeleted }) => {
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h4 className="modal-title">Deleting {RobotNameToBeDeleted}</h4>
+    <div className="delete-modal">
+      <div className="delete-modal-content">
+        <div className="delete-modal-header">
+          <h4 className="delete-modal-title">Deleting {RobotNameToBeDeleted}</h4>
         </div>
-        <div className="modal-body">
+        <div className="delete-modal-body">
           Are you sure you want to delete this user?
         </div>
-        <div className="modal-footer">
-          <div className="left-button">
-            <button className="confirm-button" onClick={onDo}>
+        <div className="delete-modal-footer">
+          <div className="delete-left-button">
+            <button className="delete-confirm-button" onClick={onDo}>
               Yes
             </button>
           </div>
-          <div className="right-button">
-            <button className="cancel-button" onClick={onClose}>
+          <div className="delete-right-button">
+            <button className="delete-cancel-button" onClick={onClose}>
               No
             </button>
           </div>
