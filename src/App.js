@@ -6,6 +6,7 @@ import LoadList from "./components/LoadList/LoadList";
 import DeleteModal from "./components/DeleteModal/DeleteModal";
 import RobotModal from "./components/RobotModal/RobotModal";
 import Pagination from "./components/Pagination/Pagination";
+import { useResizeWindow } from "./Hooks/ResizeWindow";
 
 const filterRobots = (posts, query) => {
   if (!query) {
@@ -35,7 +36,7 @@ const App = () => {
   const [sortOptionType, setSortOptionType] = useState("id-up");
   const [currentPage, setCurrentPage] = useState(1);
   const maxPages = Math.ceil(filteredRobotList.length / maxEntriesPerPage);
-  const windowSize = useResizeWindow();
+  const windowSize = useResizeWindow(setMaxEntriesPerPage, setCurrentPage)
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -69,25 +70,6 @@ const App = () => {
     };
     orderArrayBy(sortOptionType);
   }, [sortOptionType]);
-
-  function useResizeWindow() {
-    useEffect(() => {
-      function resizeWindow() {
-        if (window.innerWidth <= 992) {
-          setMaxEntriesPerPage(1);
-          setCurrentPage(1);
-        } else if (window.innerWidth > 992) {
-          setMaxEntriesPerPage(4);
-          setCurrentPage(1);
-        }
-      }
-      window.addEventListener("resize", resizeWindow);
-
-      return (_) => {
-        window.removeEventListener("resize", resizeWindow);
-      };
-    });
-  }
 
   function buttonOptions(robotIndex, option) {
     const correctedIndex = robotIndex + (currentPage - 1) * maxEntriesPerPage;
