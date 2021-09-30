@@ -35,6 +35,7 @@ const App = () => {
   const [sortOptionType, setSortOptionType] = useState("id-up");
   const [currentPage, setCurrentPage] = useState(1);
   const maxPages = Math.ceil(filteredRobotList.length / maxEntriesPerPage);
+  const windowSize = useResizeWindow();
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -54,23 +55,6 @@ const App = () => {
       );
   }, []);
 
-  useEffect(() =>{
-    function resizeWindow() {
-      if (window.innerWidth <= 992) {
-        setMaxEntriesPerPage(1);
-        setCurrentPage(1);
-      } else if (window.innerWidth > 992) {
-        setMaxEntriesPerPage(4);
-        setCurrentPage(1);
-      }
-    }
-    window.addEventListener('resize', resizeWindow)
-
-    return _ => {
-      window.removeEventListener('resize', resizeWindow)
-    }
-  })
-
   useEffect(() => {
     const orderArrayBy = (orderType) => {
       const typeOrder = orderType.split("-");
@@ -85,6 +69,25 @@ const App = () => {
     };
     orderArrayBy(sortOptionType);
   }, [sortOptionType]);
+
+  function useResizeWindow() {
+    useEffect(() => {
+      function resizeWindow() {
+        if (window.innerWidth <= 992) {
+          setMaxEntriesPerPage(1);
+          setCurrentPage(1);
+        } else if (window.innerWidth > 992) {
+          setMaxEntriesPerPage(4);
+          setCurrentPage(1);
+        }
+      }
+      window.addEventListener("resize", resizeWindow);
+
+      return (_) => {
+        window.removeEventListener("resize", resizeWindow);
+      };
+    });
+  }
 
   function buttonOptions(robotIndex, option) {
     const correctedIndex = robotIndex + (currentPage - 1) * maxEntriesPerPage;
