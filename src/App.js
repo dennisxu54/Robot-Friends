@@ -21,8 +21,10 @@ const filterRobots = (posts, query) => {
 };
 
 const App = () => {
-  const [maxEntriesPerPage, setMaxEntriesPerPage] = useState(4);
+  const windowSize = useResizeWindow();
+  const [maxEntriesPerPage, setMaxEntriesPerPage] = useState();
   const pagesToShow = 1;
+  const [currentPage, setCurrentPage] = useState();
   const [error, setError] = useState(null);
   const [isListLoaded, setIsListLoaded] = useState(false);
   const [robotList, setRobotList] = useState([]);
@@ -34,9 +36,7 @@ const App = () => {
   const [extraRobotInformationIndex, setExtraRobotInformationIndex] =
     useState();
   const [sortOptionType, setSortOptionType] = useState("id-up");
-  const [currentPage, setCurrentPage] = useState(1);
   const maxPages = Math.ceil(filteredRobotList.length / maxEntriesPerPage);
-  const windowSize = useResizeWindow(setMaxEntriesPerPage, setCurrentPage)
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -55,6 +55,16 @@ const App = () => {
         }
       );
   }, []);
+
+  useEffect(() => {
+    if (windowSize <= 992) {
+      setMaxEntriesPerPage(1);
+      setCurrentPage(1);
+    } else {
+      setMaxEntriesPerPage(4);
+      setCurrentPage(1);
+    }
+  }, [windowSize]);
 
   useEffect(() => {
     const orderArrayBy = (orderType) => {
