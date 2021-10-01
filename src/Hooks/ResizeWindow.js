@@ -4,7 +4,9 @@ export function useResizeWindow() {
   const [currentWidth, setCurrentWidth] = useState();
   useEffect(() => {
     function resizeWindow() {
-      setCurrentWidth(window.innerWidth);
+        (window.innerWidth <= 992) ?
+      setCurrentWidth(true) :
+      setCurrentWidth(false) 
     }
     window.addEventListener("resize", resizeWindow);
 

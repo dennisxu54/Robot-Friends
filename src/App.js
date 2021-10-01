@@ -21,7 +21,7 @@ const filterRobots = (posts, query) => {
 };
 
 const App = () => {
-  const windowSize = useResizeWindow();
+  const smallWindow = useResizeWindow();
   const [maxEntriesPerPage, setMaxEntriesPerPage] = useState();
   const pagesToShow = 1;
   const [currentPage, setCurrentPage] = useState();
@@ -57,14 +57,14 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (windowSize <= 992) {
+    if (smallWindow) {
       setMaxEntriesPerPage(1);
       setCurrentPage(1);
     } else {
       setMaxEntriesPerPage(4);
       setCurrentPage(1);
     }
-  }, [windowSize]);
+  }, [smallWindow]);
 
   useEffect(() => {
     const orderArrayBy = (orderType) => {
