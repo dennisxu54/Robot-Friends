@@ -1,4 +1,4 @@
-.modal {
+.delete-modal {
   position: fixed;
   left: 0;
   top: 0;
@@ -10,44 +10,44 @@
   justify-content: center;
 }
 
-.modal-content {
+.delete-modal-content {
   height: 150px;
   width: 500px;
   background-color: #fff;
 }
 
-.modal-header,
-.modal-footer {
+.delete-modal-header,
+.delete-modal-footer {
   position: relative;
   padding: 10px;
 }
 
-.modal-header {
+.delete-modal-header {
   text-align: center;
 }
 
-.modal-title {
+.delete-modal-title {
   margin: 0;
 }
 
-.modal-body {
+.delete-modal-body {
   padding: 20px;
   border-top: 1px solid gray;
   border-bottom: 1px solid gray;
 }
 
-.left-button {
+.delete-left-button {
   float: left;
   margin-bottom: 10px;
 }
 
-.right-button {
+.delete-right-button {
   float: right;
   margin-bottom: 10px;
 }
 
-.confirm-button,
-.cancel-button {
+.delete-confirm-button,
+.delete-cancel-button {
   background-color: white;
   border: none;
   color: black;
@@ -59,12 +59,19 @@
   transition-duration: 0.4s;
 }
 
-.confirm-button:hover {
+.delete-confirm-button:hover {
   background-color: #4caf50;
   color: white;
 }
 
-.cancel-button:hover {
+.delete-cancel-button:hover {
   background-color: red;
   color: white;
+}
+
+@media (max-width: 992px) {
+  .delete-modal-content {
+    height: 170px;
+    width: 500px;
+  }
 }

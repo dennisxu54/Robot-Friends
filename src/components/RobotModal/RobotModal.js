@@ -3,12 +3,12 @@ import "./RobotModal.css";
 
 const RobotModal = ({ onClose, currentRobot }) => {
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h4 className="modal-title">{currentRobot.name}</h4>
+    <div className="robot-modal">
+      <div className="robot-modal-content">
+        <div className="robot-modal-header">
+          <h4 className="robot-modal-title">{currentRobot.name}</h4>
         </div>
-        <div className="modal-body">
+        <div className="robot-modal-body">
           <p>
             Address: {currentRobot.address.street} {currentRobot.address.suite}{" "}
             {currentRobot.address.city} {currentRobot.address.zipcode}
@@ -17,8 +17,8 @@ const RobotModal = ({ onClose, currentRobot }) => {
           <p>Website: <a href={`https://${currentRobot.website}`} target="_blank" rel="noreferrer noopener">{currentRobot.website}</a></p>
           <p>Company Name: {currentRobot.company.name}</p> 
         </div>
-        <div className="modal-footer">
-          <button className="return-button" onClick={onClose}>
+        <div className="robot-modal-footer">
+          <button className="robot-return-button" onClick={onClose}>
             return
           </button>
         </div>

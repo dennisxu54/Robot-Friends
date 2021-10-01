@@ -1,4 +1,4 @@
-.modal {
+.robot-modal {
   position: fixed;
   left: 0;
   top: 0;
@@ -10,30 +10,30 @@
   justify-content: center;
 }
 
-.modal-content {
+.robot-modal-content {
   height: auto;
   width: auto;
   background-color: #fff;
 }
 
-.modal-header,
-.modal-footer {
+.robot-modal-header,
+.robot-modal-footer {
   text-align: center;
   position: relative;
   padding: 10px;
 }
 
-.modal-title {
+.robot-modal-title {
   margin: 0;
 }
 
-.modal-body {
+.robot-modal-body {
   padding: 20px;
   border-top: 1px solid gray;
   border-bottom: 1px solid gray;
 }
 
-.return-button {
+.robot-return-button {
   background-color: white;
   border: none;
   color: black;
@@ -46,7 +46,7 @@
   margin-top: 5px;
 }
 
-.return-button:hover {
+.robot-return-button:hover {
   background-color: royalblue;
   color: white;
 }

@@ -6,6 +6,7 @@ import LoadList from "./components/LoadList/LoadList";
 import DeleteModal from "./components/DeleteModal/DeleteModal";
 import RobotModal from "./components/RobotModal/RobotModal";
 import Pagination from "./components/Pagination/Pagination";
+import { useResizeWindow } from "./Hooks/ResizeWindow";
 
 const filterRobots = (posts, query) => {
   if (!query) {
@@ -20,8 +21,10 @@ const filterRobots = (posts, query) => {
 };
 
 const App = () => {
-  const maxEntriesPerPage = 4;
+  const smallWindow = useResizeWindow();
+  const [maxEntriesPerPage, setMaxEntriesPerPage] = useState();
   const pagesToShow = 1;
+  const [currentPage, setCurrentPage] = useState();
   const [error, setError] = useState(null);
   const [isListLoaded, setIsListLoaded] = useState(false);
   const [robotList, setRobotList] = useState([]);
@@ -33,8 +36,7 @@ const App = () => {
   const [extraRobotInformationIndex, setExtraRobotInformationIndex] =
     useState();
   const [sortOptionType, setSortOptionType] = useState("id-up");
-  const [currentPage, setCurrentPage] = useState(1);
-  const maxPages = Math.round(filteredRobotList.length / maxEntriesPerPage);
+  const maxPages = Math.ceil(filteredRobotList.length / maxEntriesPerPage);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -55,6 +57,16 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (smallWindow) {
+      setMaxEntriesPerPage(1);
+      setCurrentPage(1);
+    } else {
+      setMaxEntriesPerPage(4);
+      setCurrentPage(1);
+    }
+  }, [smallWindow]);
+
+  useEffect(() => {
     const orderArrayBy = (orderType) => {
       const typeOrder = orderType.split("-");
       const filterType = typeOrder[0];
@@ -69,19 +81,20 @@ const App = () => {
     orderArrayBy(sortOptionType);
   }, [sortOptionType]);
 
-  function showDeleteConfirm(robotIndex) {
-    setDeleteRobotIndex(robotIndex);
-    setShowDeleteModal(true);
+  function buttonOptions(robotIndex, option) {
+    const correctedIndex = robotIndex + (currentPage - 1) * maxEntriesPerPage;
+    setDeleteRobotIndex(correctedIndex);
+    setExtraRobotInformationIndex(correctedIndex);
+    if (option === "delete") {
+      setShowDeleteModal(true);
+    } else if (option === "information") {
+      setShowRobotModal(true);
+    }
   }
 
   function deleteItem() {
     setRobotList(robotList.filter((item, index) => index !== deleteRobotIndex));
     setShowDeleteModal(false);
-  }
-
-  function showExtraInformation(robotInformationIndex) {
-    setExtraRobotInformationIndex(robotInformationIndex);
-    setShowRobotModal(true);
   }
 
   const getPaginatedData = () => {
@@ -116,9 +129,15 @@ const App = () => {
         )
       }
       <div>
-        <header className="header">
+        <header className="main-header">
+          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        </header>
+      </div>
+      <main>
+        <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
+        <div className="main-center">
           <select
-            className="drop-down-box"
+            className="main-drop-down-box"
             onChange={(e) => setSortOptionType(e.target.value)}
           >
             <option value="id-up">ID Ascend</option>
@@ -126,23 +145,17 @@ const App = () => {
             <option value="name-up">Name Ascend</option>
             <option value="name-down">Name Descend</option>
           </select>
-          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        </header>
-      </div>
-      <main>
-        <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
+        </div>
         {isListLoaded ? (
-          <div className="container">
+          <div className="main-container">
             {error ? (
               <div>Error: {error.message}</div>
             ) : (
               <>
                 <LoadList
                   Robots={getPaginatedData()}
-                  onDelete={showDeleteConfirm}
-                  onShowInformation={showExtraInformation}
+                  onButton={buttonOptions}
                 />
-
                 <Pagination
                   maxPage={maxPages}
                   currentPage={currentPage}
