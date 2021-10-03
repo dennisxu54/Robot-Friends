@@ -7,6 +7,7 @@ import DeleteModal from "./components/DeleteModal/DeleteModal";
 import RobotModal from "./components/RobotModal/RobotModal";
 import Pagination from "./components/Pagination/Pagination";
 import { useResizeWindow } from "./Hooks/ResizeWindow";
+import SortByDropDown from "./components/SortByDropDown/SortByDropDown";
 
 const filterRobots = (posts, query) => {
   if (!query) {
@@ -136,15 +137,7 @@ const App = () => {
       <main>
         <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
         <div className="main-center">
-          <select
-            className="main-drop-down-box"
-            onChange={(e) => setSortOptionType(e.target.value)}
-          >
-            <option value="id-up">ID Ascend</option>
-            <option value="id-down">ID Descend</option>
-            <option value="name-up">Name Ascend</option>
-            <option value="name-down">Name Descend</option>
-          </select>
+          <SortByDropDown setSortOptionType={setSortOptionType} />
         </div>
         {isListLoaded ? (
           <div className="main-container">

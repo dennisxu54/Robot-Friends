@@ -1,9 +1,8 @@
 import "./Pagination.css";
 import React from "react";
-import { useState } from "react";
-import LoadList from "../LoadList/LoadList";
 
 const Pagination = ({ maxPage, currentPage, setCurrentPage, pageLimit }) => {
+
   function goToNextPage() {
     setCurrentPage((page) => page + 1);
   }
@@ -33,12 +32,13 @@ const Pagination = ({ maxPage, currentPage, setCurrentPage, pageLimit }) => {
         */}
       <div className="pagination">
         {/* previous button */}
-        <button
-          onClick={goToPreviousPage}
-          className={`prev ${currentPage === 1 ? "disabled" : ""}`}
-        >
-          prev
-        </button>
+          <button
+            onClick={goToPreviousPage}
+            className={`prev ${currentPage === 1 ? "disabled" : ""}`}
+          >
+            prev
+          </button>
+
 
         {/* show page numbers */}
         {getPaginationGroup().map((item, index) => (
@@ -61,6 +61,7 @@ const Pagination = ({ maxPage, currentPage, setCurrentPage, pageLimit }) => {
           next
         </button>
       </div>
+
     </>
   );
 };
