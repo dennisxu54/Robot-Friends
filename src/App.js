@@ -8,6 +8,13 @@ import RobotModal from "./components/RobotModal/RobotModal";
 import Pagination from "./components/Pagination/Pagination";
 import { useResizeWindow } from "./Hooks/ResizeWindow";
 import SortByDropDown from "./components/SortByDropDown/SortByDropDown";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
 
 const filterRobots = (posts, query) => {
   if (!query) {
@@ -25,7 +32,6 @@ const App = () => {
   const smallWindow = useResizeWindow();
   const [maxEntriesPerPage, setMaxEntriesPerPage] = useState();
   const pagesToShow = 1;
-  const [currentPage, setCurrentPage] = useState();
   const [error, setError] = useState(null);
   const [isListLoaded, setIsListLoaded] = useState(false);
   const [robotList, setRobotList] = useState([]);
@@ -60,10 +66,10 @@ const App = () => {
   useEffect(() => {
     if (smallWindow) {
       setMaxEntriesPerPage(1);
-      setCurrentPage(1);
+      // setCurrentPage(1);
     } else {
       setMaxEntriesPerPage(4);
-      setCurrentPage(1);
+      // setCurrentPage(1);
     }
   }, [smallWindow]);
 
@@ -82,8 +88,8 @@ const App = () => {
     orderArrayBy(sortOptionType);
   }, [sortOptionType]);
 
-  function buttonOptions(robotIndex, option) {
-    const correctedIndex = robotIndex + (currentPage - 1) * maxEntriesPerPage;
+  function buttonOptions(robotIndex, option, pageNumber) {
+    const correctedIndex = robotIndex + (pageNumber - 1) * maxEntriesPerPage;
     setDeleteRobotIndex(correctedIndex);
     setExtraRobotInformationIndex(correctedIndex);
     if (option === "delete") {
@@ -98,14 +104,23 @@ const App = () => {
     setShowDeleteModal(false);
   }
 
-  const getPaginatedData = () => {
-    const startIndex = currentPage * maxEntriesPerPage - maxEntriesPerPage;
+  const getPaginatedData = (pageNumber) => {
+    const startIndex = pageNumber * maxEntriesPerPage - maxEntriesPerPage;
     const endIndex = startIndex + maxEntriesPerPage;
     return filteredRobotList.slice(startIndex, endIndex);
   };
 
+  function RobotLoadList() {
+    let { params } = useParams();
+
+    return [
+      <LoadList Robots={getPaginatedData(params)} onButton={buttonOptions} />,
+      <Pagination maxPage={maxPages} pageLimit={pagesToShow} />,
+    ];
+  }
+
   return (
-    <div>
+    <Router>
       {
         /* Only render modal if items are loaded */
         // main takeaway for this PR is, name your variables more specifically, helps with debugging
@@ -134,35 +149,39 @@ const App = () => {
           <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </header>
       </div>
-      <main>
-        <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
-        <div className="main-center">
-          <SortByDropDown setSortOptionType={setSortOptionType} />
-        </div>
-        {isListLoaded ? (
-          <div className="main-container">
-            {error ? (
-              <div>Error: {error.message}</div>
-            ) : (
-              <>
-                <LoadList
-                  Robots={getPaginatedData()}
-                  onButton={buttonOptions}
-                />
-                <Pagination
-                  maxPage={maxPages}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                  pageLimit={pagesToShow}
-                />
-              </>
-            )}
+      <Switch>
+        <main>
+          <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
+          <div className="main-center">
+            <SortByDropDown setSortOptionType={setSortOptionType} />
           </div>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </main>
-    </div>
+          {isListLoaded ? (
+            <div className="main-container">
+              {error ? (
+                <div>Error: {error.message}</div>
+              ) : (
+                <>
+                  <Route exact path="/">
+                    <LoadList
+                      Robots={getPaginatedData(1)}
+                      onButton={buttonOptions}
+                    />
+                    <Pagination maxPage={maxPages} pageLimit={pagesToShow} />
+                  </Route>
+                  <Route
+                    exact
+                    path="/page/:params"
+                    children={<RobotLoadList />}
+                  />
+                </>
+              )}
+            </div>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </main>
+      </Switch>
+    </Router>
   );
 };
 

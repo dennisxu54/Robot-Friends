@@ -50,3 +50,8 @@
   box-shadow: none;
   color: #999;
 }
+
+.link-prev.disabled,
+.link-next.disabled {
+  pointer-events: none;
+}

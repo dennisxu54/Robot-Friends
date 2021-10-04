@@ -1,9 +1,11 @@
 import "./LoadList.css";
 import React from "react";
+import { useParams } from "react-router";
 
 const LoadList = ({ Robots, onButton }) => {
   const deleteConfirm = "delete";
   const showInfo = "information";
+  let { params } = useParams();
 
   return Robots.map((item, index) => (
     <div key={item.id} className="special-box">
@@ -15,7 +17,7 @@ const LoadList = ({ Robots, onButton }) => {
         <button
           className="delete-button"
           onClick={() => {
-            onButton(index, deleteConfirm);
+            onButton(index, deleteConfirm, params);
           }}
         >
           Delete
@@ -25,7 +27,7 @@ const LoadList = ({ Robots, onButton }) => {
         <button
           className="information-button"
           onClick={() => {
-            onButton(index, showInfo);
+            onButton(index, showInfo, params);
           }}
         >
           Information
