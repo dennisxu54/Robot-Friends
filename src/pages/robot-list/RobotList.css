@@ -1,0 +1,26 @@
+.robot-list-main-header {
+  text-align: center;
+}
+
+body {
+  background: linear-gradient(to left top, yellow, rgb(130, 133, 0)) fixed;
+}
+
+.robot-list-main-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 65%;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.robot-list-main-center {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.robot-list-center-link {
+  text-align: center;
+  margin-right: 1em;
+}
