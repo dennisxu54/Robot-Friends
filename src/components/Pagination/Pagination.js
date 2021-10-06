@@ -2,14 +2,16 @@ import "./Pagination.css";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
-const Pagination = ({ maxPage, pageLimit }) => {
+const PAGES_TO_SHOW = 1;
+
+const Pagination = ({ maxPage }) => {
   let { pageNumber } = useParams();
   if (isNaN(pageNumber)) pageNumber = 1;
   pageNumber = parseInt(pageNumber);
 
   const getPaginationGroup = () => {
-    let start = Math.floor((pageNumber - 1) / pageLimit) * pageLimit;
-    return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
+    let start = Math.floor((pageNumber - 1) / PAGES_TO_SHOW) * PAGES_TO_SHOW;
+    return new Array(PAGES_TO_SHOW).fill().map((_, idx) => start + idx + 1);
   };
 
   return (

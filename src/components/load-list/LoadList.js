@@ -2,12 +2,34 @@ import "./LoadList.css";
 import React from "react";
 import { useParams } from "react-router";
 
-const LoadList = ({ Robots, onButton }) => {
-  const deleteConfirm = "delete";
-  const showInfo = "information";
-  let { params } = useParams();
+const LoadList = ({
+  filteredRobotList,
+  entriesPerPage,
+  setDeleteRobotIndex,
+  setExtraRobotInformationIndex,
+}) => {
+  const { pageNumber } = useParams();
 
-  return Robots.map((item, index) => (
+  const getPaginatedData = () => {
+    const startIndex = pageNumber * entriesPerPage - entriesPerPage;
+    const endIndex = startIndex + entriesPerPage;
+    return filteredRobotList.slice(startIndex, endIndex);
+  };
+
+  const getCorrectedIndex = (index) => {
+    const correctedIndex = index + (parseInt(pageNumber) - 1) * entriesPerPage;
+    return correctedIndex;
+  };
+
+  const onDelete = (index) => {
+    setDeleteRobotIndex(getCorrectedIndex(index));
+  };
+
+  const onShowModal = (index) => {
+    setExtraRobotInformationIndex(getCorrectedIndex(index));
+  };
+
+  return getPaginatedData().map((item, index) => (
     <div key={item.id} className="special-box">
       <img alt="robots" src={`https://robohash.org/${item.id}&200x200`} />
       <h2>{item.name}</h2>
@@ -17,7 +39,7 @@ const LoadList = ({ Robots, onButton }) => {
         <button
           className="delete-button"
           onClick={() => {
-            onButton(index, deleteConfirm, params);
+            onDelete(index);
           }}
         >
           Delete
@@ -27,7 +49,7 @@ const LoadList = ({ Robots, onButton }) => {
         <button
           className="information-button"
           onClick={() => {
-            onButton(index, showInfo, params);
+            onShowModal(index);
           }}
         >
           Information

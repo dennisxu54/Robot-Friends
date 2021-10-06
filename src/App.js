@@ -19,7 +19,7 @@ const App = () => {
           <Route exact path="/">
             <HomePage />
           </Route>
-          <Route path="/page/">
+          <Route path="/page/:pageNumber">
             <ShowRobotList />
           </Route>
         </Switch>

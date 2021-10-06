@@ -11,7 +11,7 @@ const HomePage = () => {
     <div className="home-page-center">
     <Link to="/page/1">
     <button>
-    Please click here for Robot list
+    Click here for Robot list
     </button>
     </Link>
     </div>
