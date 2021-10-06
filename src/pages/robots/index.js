@@ -2,13 +2,12 @@ import "./RobotList.css";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Search from "../../components/search/Search";
-import LoadList from "../../components/load-list/LoadList";
+import RobotList from "../../components/robot-list/index";
 import DeleteModal from "../../components/delete-modal/DeleteModal";
 import RobotModal from "../../components/robot-modal/RobotModal";
 import Pagination from "../../components/pagination/Pagination";
 import { useResizeWindow } from "../../hooks/resize-window";
-import SortByDropDown from "../../components/sort-by-drop-down/SortByDropDown";
-import { Switch, Route, useParams, Link } from "react-router-dom";
+import { Switch, Link } from "react-router-dom";
 import { useFetchRobots } from "../../hooks/use-fetch-robots";
 
 const filterRobots = (posts, query) => {
@@ -23,12 +22,14 @@ const filterRobots = (posts, query) => {
   });
 };
 
-const ShowRobotList = () => {
+const RobotsPage = () => {
   const { isLoading, error, list: initialRobotList } = useFetchRobots();
   const [robotList, setRobotList] = useState([]);
-  const smallWindow = useResizeWindow();
+
   const [searchQuery, setSearchQuery] = useState("");
   const filteredRobotList = filterRobots(robotList, searchQuery);
+
+  const smallWindow = useResizeWindow();
 
   const [deleteRobotIndex, setDeleteRobotIndex] = useState(-1);
   const [extraRobotInformationIndex, setExtraRobotInformationIndex] =
@@ -36,20 +37,14 @@ const ShowRobotList = () => {
 
   const [maxEntriesPerPage, setMaxEntriesPerPage] = useState();
   const maxPages = Math.ceil(filteredRobotList.length / maxEntriesPerPage);
-  const { pageNumber } = useParams();
 
   useEffect(() => {
-    if (error) {
-      console.log(error.message);
-      //display error on screen if you want
-      return;
-    }
     if (initialRobotList && initialRobotList.length > 0) {
       setRobotList(initialRobotList);
     }
   }, [initialRobotList, error]);
 
-  function deleteItem() {
+  function deleteRobot() {
     setRobotList(robotList.filter((item, index) => index !== deleteRobotIndex));
     setDeleteRobotIndex(-1);
   }
@@ -62,8 +57,6 @@ const ShowRobotList = () => {
     }
   }, [smallWindow]);
 
-  console.log(deleteRobotIndex, robotList);
-
   return (
     <div>
       <div>
@@ -74,7 +67,6 @@ const ShowRobotList = () => {
       <Switch>
         <main>
           <h1 style={{ textAlign: "center" }}>RoboFriends</h1>
-
           <div className="robot-list-main-center">
             <Link to="/">
               <button className="robot-list-center-link">Home</button>
@@ -90,9 +82,11 @@ const ShowRobotList = () => {
                 <>
                   {
                     <>
-                      <LoadList
+                      <RobotList
                         filteredRobotList={filteredRobotList}
-                        setExtraRobotInformationIndex={setExtraRobotInformationIndex}
+                        setExtraRobotInformationIndex={
+                          setExtraRobotInformationIndex
+                        }
                         setDeleteRobotIndex={setDeleteRobotIndex}
                         entriesPerPage={maxEntriesPerPage}
                       />
@@ -101,9 +95,9 @@ const ShowRobotList = () => {
                   }
                   {deleteRobotIndex !== -1 && (
                     <DeleteModal
-                      onDo={deleteItem}
-                      onClose={() => setDeleteRobotIndex(-1)}
-                      RobotNameToBeDeleted={robotList[deleteRobotIndex].name}
+                      deleteRobot={deleteRobot}
+                      onCloseModal={() => setDeleteRobotIndex(-1)}
+                      robotToDelete={robotList[deleteRobotIndex].name}
                     />
                   )}
                   {extraRobotInformationIndex !== -1 && (
@@ -122,4 +116,4 @@ const ShowRobotList = () => {
   );
 };
 
-export default ShowRobotList;
+export default RobotsPage;

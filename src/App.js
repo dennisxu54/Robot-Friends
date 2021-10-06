@@ -7,7 +7,7 @@ import {
   Route
 } from "react-router-dom";
 import HomePage from "./pages/home-page";
-import ShowRobotList from "./pages/robot-list";
+import ShowRobotList from "./pages/robots";
 
 const App = () => {
 
