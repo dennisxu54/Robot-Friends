@@ -1,12 +1,6 @@
-import "./LoadList.css";
-import React from "react";
-
-const LoadList = ({ Robots, onButton }) => {
-  const deleteConfirm = "delete";
-  const showInfo = "information";
-
-  return Robots.map((item, index) => (
-    <div key={item.id} className="special-box">
+const RobotCard = ({ item, index, onShowModal, onDelete }) => {
+  return (
+    <div className="special-box">
       <img alt="robots" src={`https://robohash.org/${item.id}&200x200`} />
       <h2>{item.name}</h2>
       <h3>{item.username}</h3>
@@ -15,7 +9,7 @@ const LoadList = ({ Robots, onButton }) => {
         <button
           className="delete-button"
           onClick={() => {
-            onButton(index, deleteConfirm);
+            onDelete(index);
           }}
         >
           Delete
@@ -25,14 +19,14 @@ const LoadList = ({ Robots, onButton }) => {
         <button
           className="information-button"
           onClick={() => {
-            onButton(index, showInfo);
+            onShowModal(index);
           }}
         >
           Information
         </button>
       </div>
     </div>
-  ));
+  );
 };
 
-export default LoadList;
+export default RobotCard;

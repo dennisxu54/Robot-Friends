@@ -1,25 +1,17 @@
 import "./Pagination.css";
 import React from "react";
-import { useState } from "react";
-import LoadList from "../LoadList/LoadList";
+import { Link, useParams } from "react-router-dom";
 
-const Pagination = ({ maxPage, currentPage, setCurrentPage, pageLimit }) => {
-  function goToNextPage() {
-    setCurrentPage((page) => page + 1);
-  }
+const PAGES_TO_SHOW = 1;
 
-  function goToPreviousPage() {
-    setCurrentPage((page) => page - 1);
-  }
-
-  function changePage(event) {
-    const pageNumber = Number(event.target.textContent);
-    setCurrentPage(pageNumber);
-  }
+const Pagination = ({ maxPage }) => {
+  let { pageNumber } = useParams();
+  if (isNaN(pageNumber)) pageNumber = 1;
+  pageNumber = parseInt(pageNumber);
 
   const getPaginationGroup = () => {
-    let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
-    return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
+    let start = Math.floor((pageNumber - 1) / PAGES_TO_SHOW) * PAGES_TO_SHOW;
+    return new Array(PAGES_TO_SHOW).fill().map((_, idx) => start + idx + 1);
   };
 
   return (
@@ -33,33 +25,28 @@ const Pagination = ({ maxPage, currentPage, setCurrentPage, pageLimit }) => {
         */}
       <div className="pagination">
         {/* previous button */}
-        <button
-          onClick={goToPreviousPage}
-          className={`prev ${currentPage === 1 ? "disabled" : ""}`}
-        >
-          prev
-        </button>
+        <Link to={`/page/` + (pageNumber - 1)} className={`link-prev ${pageNumber === 1 ? "disabled" : ""}`}>
+          <button className={`prev ${pageNumber === 1 ? "disabled" : ""}`}>
+            prev
+          </button>
+        </Link>
 
         {/* show page numbers */}
         {getPaginationGroup().map((item, index) => (
           <button
             key={index}
-            onClick={changePage}
-            className={`paginationItem ${
-              currentPage === item ? "active" : null
-            }`}
+            className={`paginationItem ${pageNumber === item ? "active" : null}`}
           >
             <span>{item}</span>
           </button>
         ))}
 
         {/* next button */}
-        <button
-          onClick={goToNextPage}
-          className={`next ${currentPage === maxPage ? "disabled" : ""}`}
-        >
-          next
-        </button>
+        <Link to={`/page/` + (pageNumber + 1)} className={`link-next ${pageNumber === maxPage ? "disabled" : ""}`}>
+          <button className={`next ${pageNumber === maxPage ? "disabled" : ""}`}>
+            next
+          </button>
+        </Link>
       </div>
     </>
   );
